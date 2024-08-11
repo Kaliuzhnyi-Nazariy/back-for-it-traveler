@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
 const usersRouter = require("./routes/api/users");
 const placesRouter = require("./routes/api/locations");
@@ -21,6 +22,4 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-app.listen(3001, () => {
-  console.log("Backend is started successfully");
-});
+module.exports = app;
