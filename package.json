@@ -1,7 +1,7 @@
 {
   "name": "back-for-it-traveler",
   "version": "1.0.0",
-  "main": "server.js",
+  "private": true,
   "scripts": {
     "start": "nodemon server.js"
   },
