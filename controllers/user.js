@@ -1,0 +1,90 @@
+const { ctrlWrapper, HttpError } = require("../helpers");
+const { User } = require("../models/user");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const { SECRET_KEY } = process.env;
+
+const getAll = async (req, res) => {
+  const result = await User.find({}, "email username");
+  res.status(200).json(result);
+};
+
+const getById = async (req, res) => {
+  const { userId } = req.params;
+  const result = await User.findById(userId, "eamil username");
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json(result);
+};
+
+const register = async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (user) {
+    throw HttpError(409, "E-mail already in use!");
+  }
+
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  const newUser = await User.create({ ...req.body, password: hashPassword });
+
+  res.status(201).json({ email: newUser.email, username: newUser.username });
+};
+
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    next(HttpError(404, "Not found!"));
+  }
+
+  const comparePassword = await bcrypt.compare(password, user.password);
+
+  if (!comparePassword) {
+    next(HttpError(401, "Invalid email or password!"));
+  }
+
+  const payload = {
+    id: user._id,
+  };
+
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "2d" });
+
+  res.status(200).json({
+    username: user.username,
+    email: user.email,
+    token,
+  });
+};
+
+const updateUser = async (req, res, next) => {
+  const { userId } = req.params;
+  const result = await User.findByIdAndUpdate(userId, req.body, { new: true });
+  if (!result) {
+    next(HttpError(404, "Not found"));
+  }
+  res.json(result);
+};
+
+const deleteUser = async (req, res, next) => {
+  const { userId } = req.params;
+  const result = await User.findByIdAndDelete(userId);
+  if (!result) {
+    throw HttpError(404, "Not found");
+  }
+  res.json({ result, message: "Deleted successfully!" });
+};
+
+module.exports = {
+  getAll: ctrlWrapper(getAll),
+  getById: ctrlWrapper(getById),
+  register: ctrlWrapper(register),
+  login: ctrlWrapper(login),
+  updateUser: ctrlWrapper(updateUser),
+  deleteUser: ctrlWrapper(deleteUser),
+};

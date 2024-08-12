@@ -1,29 +1,26 @@
 const express = require("express");
-const { validateBody } = require("../../middlewares");
+const { validateBody, isValidId } = require("../../middlewares");
 
-const schema = require("../../schemas");
+const { schemas } = require("../../models/user");
+const ctrl = require("../../controllers/user");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send(`<p>Hello, we are users!</p>`);
-});
+router.get("/", ctrl.getAll);
 
-router.get("/:userId", (req, res) => {
-  const { userId } = req.params;
-  res.send(`<p>Hello, I am user ${userId}!</p>`);
-});
+router.get("/:userId", isValidId, ctrl.getById);
 
-router.post("/", validateBody(schema.addUserSchema), (req, res) => {
-  res.send(`<p>Hello, we are users!</p>`);
-});
+router.post("/register", validateBody(schemas.addUserSchema), ctrl.register);
 
-router.put("/:userId", (req, res) => {
-  res.send(`<p>Hello, we are users!</p>`);
-});
+router.post("/login", validateBody(schemas.loginUserSchema), ctrl.login);
 
-router.delete("/:userId", (req, res) => {
-  res.send("User is deleted");
-});
+router.put(
+  "/:userId",
+  isValidId,
+  validateBody(schemas.addUserSchema),
+  ctrl.updateUser
+);
+
+router.delete("/:userId", isValidId, ctrl.deleteUser);
 
 module.exports = router;
