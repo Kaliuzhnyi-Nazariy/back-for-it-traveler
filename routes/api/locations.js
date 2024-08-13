@@ -1,26 +1,28 @@
 const express = require("express");
+const ctrl = require("../../controllers/place");
+const { validateBody, authenticated } = require("../../middlewares");
+const { schemas } = require("../../models/place");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send(`<p>I am your favorite place</p>`);
-});
+router.get("/", authenticated, ctrl.getPlaces);
 
-router.get("/:placeId", (req, res) => {
-  const { placeId } = req.params;
-  res.send(`<p>I am your favorite place with id: ${placeId}</p>`);
-});
+router.get("/:placeId", authenticated, ctrl.getPlacesById);
 
-router.post("/", (req, res) => {
-  res.send(`<p>I am your favorite place</p>`);
-});
+router.post(
+  "/",
+  authenticated,
+  validateBody(schemas.addSchema),
+  ctrl.postPlace
+);
 
-router.put("/:placeId", (req, res) => {
-  res.send(`<p>I am your favorite place</p>`);
-});
+router.put(
+  "/:placeId",
+  authenticated,
+  validateBody(schemas.addSchema),
+  ctrl.updatePlace
+);
 
-router.delete("/:placeId", (req, res) => {
-  res.send(`<p>I am your favorite place</p>`);
-});
+router.delete("/:placeId", authenticated, ctrl.deletePlace);
 
 module.exports = router;
