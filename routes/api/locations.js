@@ -1,6 +1,10 @@
 const express = require("express");
 const ctrl = require("../../controllers/place");
-const { validateBody, authenticated } = require("../../middlewares");
+const {
+  validateBody,
+  authenticated,
+  uploadPhoto,
+} = require("../../middlewares");
 const { schemas } = require("../../models/place");
 
 const router = express.Router();
@@ -12,6 +16,7 @@ router.get("/:placeId", authenticated, ctrl.getPlacesById);
 router.post(
   "/",
   authenticated,
+  uploadPhoto.single("photo"),
   validateBody(schemas.addSchema),
   ctrl.postPlace
 );
@@ -20,6 +25,7 @@ router.put(
   "/:placeId",
   authenticated,
   validateBody(schemas.addSchema),
+  uploadPhoto.single("photo"),
   ctrl.updatePlace
 );
 
