@@ -15,6 +15,7 @@ const placeSchema = new Schema({
   photo: {
     type: String,
     // required: true,
+    default: "../public/placePhotos/no-image.png",
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -25,7 +26,7 @@ const placeSchema = new Schema({
 const addSchema = Joi.object({
   name: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
-  photo: Joi.string(),
+  // photo: Joi.string(),
 });
 
 const schemas = { addSchema };
