@@ -4,7 +4,7 @@ const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
 const placeSchema = new Schema({
-  name: {
+  location: {
     type: String,
     required: true,
   },
@@ -28,7 +28,7 @@ const placeSchema = new Schema({
 });
 
 const addSchema = Joi.object({
-  name: Joi.string().min(3).required(),
+  location: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
   coordinates: Joi.array().required(),
   // photo: Joi.string(),
