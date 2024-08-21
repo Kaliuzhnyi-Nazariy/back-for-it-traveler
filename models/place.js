@@ -12,6 +12,10 @@ const placeSchema = new Schema({
     type: String,
     required: true,
   },
+  coordinates: {
+    type: Array,
+    required: true,
+  },
   photo: {
     type: String,
     // required: true,
@@ -26,6 +30,7 @@ const placeSchema = new Schema({
 const addSchema = Joi.object({
   name: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
+  coordinates: Joi.array().required(),
   // photo: Joi.string(),
 });
 
