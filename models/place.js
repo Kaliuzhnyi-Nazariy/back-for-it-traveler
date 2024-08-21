@@ -31,7 +31,7 @@ const addSchema = Joi.object({
   location: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
   coordinates: Joi.array().required(),
-  img: Joi.string(),
+  img: Joi.string().optional(),
 });
 
 const schemas = { addSchema };
