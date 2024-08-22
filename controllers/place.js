@@ -15,13 +15,15 @@ const getPlacesById = async (req, res) => {
 
 const postPlace = async (req, res) => {
   const { _id: owner } = req.user;
+  console.log(req);
   if (req.file) {
-    const photo = uploadPhotoOperation(owner, req.file);
+    const img = uploadPhotoOperation(owner, req.file);
 
-    const result = await Place.create({ ...req.body, owner, photo });
+    const result = await Place.create({ ...req.body, owner, img });
 
     res.json(result);
   } else {
+    console.log(req.body);
     const result = await Place.create({ ...req.body, owner });
     res.json(result);
   }
@@ -30,10 +32,10 @@ const postPlace = async (req, res) => {
 const updatePlace = async (req, res) => {
   const { placeId } = req.params;
   if (req.file) {
-    const photo = await uploadPhotoOperation(placeId, req.file);
+    const img = await uploadPhotoOperation(placeId, req.file);
     const place = await Place.findByIdAndUpdate(
       placeId,
-      { ...req.body, photo },
+      { ...req.body, img },
       { new: true }
     );
     res.json(place);

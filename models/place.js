@@ -31,17 +31,10 @@ const addSchema = Joi.object({
   location: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
   coordinates: Joi.array().required(),
-  img: Joi.string().default("../public/placePhotos/no-image.png").optional(),
+  img: Joi.allow("").default("../public/placePhotos/no-image.png").optional(),
 });
 
 const schemas = { addSchema };
-
-placeSchema.pre("save", function (next) {
-  if (this.img === "") {
-    this.img = "../public/placePhotos/no-image.png";
-  }
-  next();
-});
 
 placeSchema.post("save", handleMongooseError);
 
