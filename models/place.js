@@ -36,6 +36,13 @@ const addSchema = Joi.object({
 
 const schemas = { addSchema };
 
+placeSchema.pre("save", function (next) {
+  if (this.img === "") {
+    this.img = "../public/placePhotos/no-image.png";
+  }
+  next();
+});
+
 placeSchema.post("save", handleMongooseError);
 
 const Place = model("place", placeSchema);
