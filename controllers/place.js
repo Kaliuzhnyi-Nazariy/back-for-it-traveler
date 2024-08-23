@@ -30,7 +30,7 @@ const postPlace = async (req, res) => {
 };
 
 const updatePlace = async (req, res) => {
-  const { placeId } = req.params;
+  const { id: placeId } = req.body;
   if (req.file) {
     const img = await uploadPhotoOperation(placeId, req.file);
     const place = await Place.findByIdAndUpdate(
@@ -48,7 +48,7 @@ const updatePlace = async (req, res) => {
 };
 
 const deletePlace = async (req, res) => {
-  const { placeId } = req.params;
+  const { id: placeId } = req.body;
   const place = await Place.findByIdAndDelete(placeId);
   if (!place) {
     throw HttpError(404);
