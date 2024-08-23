@@ -48,7 +48,7 @@ const updatePlace = async (req, res) => {
 };
 
 const deletePlace = async (req, res) => {
-  const { id: placeId } = req.body;
+  const { placeId } = req.params;
   const place = await Place.findByIdAndDelete(placeId);
   if (!place) {
     throw HttpError(404);

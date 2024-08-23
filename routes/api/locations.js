@@ -29,6 +29,6 @@ router.put(
   ctrl.updatePlace
 );
 
-router.delete("/", authenticated, ctrl.deletePlace);
+router.delete("/:placeId", authenticated, ctrl.deletePlace);
 
 module.exports = router;
