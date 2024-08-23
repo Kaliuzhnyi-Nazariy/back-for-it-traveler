@@ -19,7 +19,6 @@ const placeSchema = new Schema({
   img: {
     type: String,
     // required: true,
-    default: "../public/placePhotos/no-image.png",
   },
   owner: {
     type: Schema.Types.ObjectId,
@@ -31,7 +30,7 @@ const addSchema = Joi.object({
   location: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
   coordinates: Joi.array().required(),
-  img: Joi.allow("").default("../public/placePhotos/no-image.png").optional(),
+  img: Joi.allow("").optional(),
 });
 
 const upgradeSchema = Joi.object({
