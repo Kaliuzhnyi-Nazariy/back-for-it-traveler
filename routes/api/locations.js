@@ -22,13 +22,13 @@ router.post(
 );
 
 router.put(
-  "/:placeId",
+  "/",
   authenticated,
-  validateBody(schemas.addSchema),
+  validateBody(schemas.upgradeSchema),
   uploadPhoto.single("photo"),
   ctrl.updatePlace
 );
 
-router.delete("/:placeId", authenticated, ctrl.deletePlace);
+router.delete("/", authenticated, ctrl.deletePlace);
 
 module.exports = router;
