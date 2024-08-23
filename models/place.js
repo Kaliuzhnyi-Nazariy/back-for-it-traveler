@@ -34,7 +34,15 @@ const addSchema = Joi.object({
   img: Joi.allow("").default("../public/placePhotos/no-image.png").optional(),
 });
 
-const schemas = { addSchema };
+const upgradeSchema = Joi.object({
+  id: Joi.string().required(),
+  location: Joi.string().min(3).required(),
+  description: Joi.string().min(15).required(),
+  coordinates: Joi.array().required(),
+  img: Joi.allow("").default("../public/placePhotos/no-image.png").optional(),
+});
+
+const schemas = { addSchema, upgradeSchema };
 
 placeSchema.pre("save", function (next) {
   if (this.img === "") {
