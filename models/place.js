@@ -38,17 +38,10 @@ const upgradeSchema = Joi.object({
   location: Joi.string().min(3).required(),
   description: Joi.string().min(15).required(),
   coordinates: Joi.array().required(),
-  img: Joi.allow("").default("../public/placePhotos/no-image.png").optional(),
+  img: Joi.allow("").optional(),
 });
 
 const schemas = { addSchema, upgradeSchema };
-
-placeSchema.pre("save", function (next) {
-  if (this.img === "") {
-    this.img = "../public/placePhotos/no-image.png";
-  }
-  next();
-});
 
 placeSchema.post("save", handleMongooseError);
 
