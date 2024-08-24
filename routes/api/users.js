@@ -16,6 +16,8 @@ router.post("/register", validateBody(schemas.addUserSchema), ctrl.register);
 
 router.post("/login", validateBody(schemas.loginUserSchema), ctrl.login);
 
+router.post("/logout", authenticated, ctrl.logout);
+
 router.put(
   "/:userId",
   isValidId,

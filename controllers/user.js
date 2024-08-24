@@ -73,6 +73,12 @@ const updateUser = async (req, res, next) => {
   res.json(result);
 };
 
+const logout = async (req, res) => {
+  const user = req.user;
+  const result = await User.findByIdAndUpdate(user.id, { token: "" });
+  res.json({ message: "Logged out successfully" });
+};
+
 const deleteUser = async (req, res, next) => {
   const { userId } = req.params;
   const result = await User.findByIdAndDelete(userId);
@@ -94,6 +100,7 @@ module.exports = {
   register: ctrlWrapper(register),
   login: ctrlWrapper(login),
   updateUser: ctrlWrapper(updateUser),
+  logout: ctrlWrapper(logout),
   deleteUser: ctrlWrapper(deleteUser),
   refresh: ctrlWrapper(refresh),
 };
