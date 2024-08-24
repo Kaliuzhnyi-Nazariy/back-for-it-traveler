@@ -1,5 +1,5 @@
 const express = require("express");
-const { validateBody, isValidId } = require("../../middlewares");
+const { validateBody, isValidId, authenticated } = require("../../middlewares");
 
 const { schemas } = require("../../models/user");
 const ctrl = require("../../controllers/user");
@@ -7,6 +7,8 @@ const ctrl = require("../../controllers/user");
 const router = express.Router();
 
 router.get("/", ctrl.getAll);
+
+router.get("/me", authenticated, ctrl.refresh);
 
 router.get("/:userId", isValidId, ctrl.getById);
 

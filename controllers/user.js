@@ -82,6 +82,12 @@ const deleteUser = async (req, res, next) => {
   res.json({ result, message: "Deleted successfully!" });
 };
 
+const refresh = async (req, res) => {
+  const user = req.user;
+  if (!user) throw HttpError(404);
+  res.json({ name: user.username });
+};
+
 module.exports = {
   getAll: ctrlWrapper(getAll),
   getById: ctrlWrapper(getById),
@@ -89,4 +95,5 @@ module.exports = {
   login: ctrlWrapper(login),
   updateUser: ctrlWrapper(updateUser),
   deleteUser: ctrlWrapper(deleteUser),
+  refresh: ctrlWrapper(refresh),
 };
