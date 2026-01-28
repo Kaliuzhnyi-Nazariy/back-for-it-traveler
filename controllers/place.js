@@ -15,7 +15,7 @@ const getPlacesById = async (req, res) => {
 
 const postPlace = async (req, res) => {
   const { _id: owner } = req.user;
-  console.log(req);
+
   if (req.file) {
     const img = uploadPhotoOperation(owner, req.file);
 
@@ -23,9 +23,8 @@ const postPlace = async (req, res) => {
 
     res.json(result);
   } else {
-    console.log(req.body);
     const result = await Place.create({ ...req.body, owner });
-    res.json(result);
+    res.status(201).json(result);
   }
 };
 
@@ -36,7 +35,7 @@ const updatePlace = async (req, res) => {
     const place = await Place.findByIdAndUpdate(
       placeId,
       { ...req.body, img },
-      { new: true }
+      { new: true },
     );
     res.json(place);
   } else {
